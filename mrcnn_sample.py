@@ -87,5 +87,8 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 r = results[0]
 print(r['masks'].shape)
 print(r['class_ids'])
+mask1=r['masks'][:,:,0]
+
+print("Mask Unique",np.unique(mask1,return_counts=True))
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])

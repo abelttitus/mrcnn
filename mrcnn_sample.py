@@ -40,7 +40,7 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "images")
+IMAGE_DIR = "/home/ashfaquekp/val/0/10/photo"
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -56,8 +56,8 @@ model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 # Load weights trained on MS-COCO
 model.load_weights(COCO_MODEL_PATH, by_name=True)
 
-file_names = next(os.walk(IMAGE_DIR))[2]
-image = skimage.io.imread(os.path.join(IMAGE_DIR, random.choice(file_names)))
+
+image = skimage.io.imread(os.path.join(IMAGE_DIR, "600.jpg"))
 
 # Run detection
 results = model.detect([image], verbose=1)

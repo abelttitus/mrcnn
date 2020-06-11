@@ -106,19 +106,21 @@ for line in lines:
     class_ids=r['class_ids']
     no_masks=masks.shape[2]
     
-    file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
+    # file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
     
-    for i in range(no_masks):
-        mask_img=r['masks'][:,:,i].astype('float')
-        mask_img=mask_img*255
-        mask_img=mask_img.astype('uint8')
+    # for i in range(no_masks):
+    #     mask_img=r['masks'][:,:,i].astype('float')
+    #     mask_img=mask_img*255
+    #     mask_img=mask_img.astype('uint8')
         
-        mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
-        io.imsave(mask_file_name,mask_img)
+    #     mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
+    #     io.imsave(mask_file_name,mask_img)
         
-        file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
-    file.close()
+    #     file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
+    # file.close()
     index+=1
+    print(index)
+    print(rgb_file)
     if index>70:
         break
     

@@ -96,7 +96,7 @@ for line in lines:
     image = skimage.io.imread(rgb_file)
     
     # Run detection
-    results = model.detect([image], verbose=1)
+    results = model.detect([image], verbose=0)
     
     IMAGE_NAME=rgb_file.split(".")[0].split("/")[-1]
     # Visualize results
@@ -119,7 +119,7 @@ for line in lines:
         file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
     file.close()
     index+=1
-    if index>32:
+    if index>70:
         break
     
 file2.close()    

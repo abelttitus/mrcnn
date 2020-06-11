@@ -84,42 +84,43 @@ lines = data.split("\n")
 index=0
 
 for line in lines: 
-    if index%10==0:                                            #This is used to loop all images
-        contents=line.split(" ")
-        try:
-            rgb_file=contents[0]
-        except:
-            print("Associate File read error at i =",index)
-            continue
-        print("Generating mask of Image %d"%(index+1))
-        image = skimage.io.imread(rgb_file)
+                                               #This is used to loop all images
+    contents=line.split(" ")
+    try:
+        rgb_file=contents[0]
+    except:
+        print("Associate File read error at i =",index)
+        continue
+    print("Generating mask of Image %d"%(index))
+    image = skimage.io.imread(rgb_file)
+    
+    # Run detection
+    results = model.detect([image], verbose=0)
+    
+    IMAGE_NAME=rgb_file.split(".")[0].split("/")[-1]
+    # Visualize results
+    r = results[0]
+    
+    masks=r['masks']
+    class_ids=r['class_ids']
+    no_masks=masks.shape[2]
+    
+    file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
+    
+    for i in range(no_masks):
+        mask_img=r['masks'][:,:,i].astype('float')
+        mask_img=mask_img*255
+        mask_img=mask_img.astype('uint8')
         
-        # Run detection
-        results = model.detect([image], verbose=0)
+        mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
+        io.imsave(mask_file_name,mask_img)
         
-        IMAGE_NAME=rgb_file.split(".")[0].split("/")[-1]
-        # Visualize results
-        r = results[0]
-        
-        masks=r['masks']
-        class_ids=r['class_ids']
-        no_masks=masks.shape[2]
-        
-        file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
-        
-        for i in range(no_masks):
-            mask_img=r['masks'][:,:,i].astype('float')
-            mask_img=mask_img*255
-            mask_img=mask_img.astype('uint8')
-            
-            mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
-            io.imsave(mask_file_name,mask_img)
-            
-            file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
-        file.close()
-        print(index)
-        print(rgb_file)
-    index+=1
+        file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
+        file_class=open(MASK_DIR+'class_'+str(class_ids[i])+'.txt','a')
+        file_class.write("%s \n"%(rgb_file))
+        file_class.close()
+    file.close()
+index+=1
 
 
     

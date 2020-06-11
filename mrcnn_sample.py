@@ -117,9 +117,9 @@ for line in lines:
             
         #     file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
         # file.close()
-        index+=1
         print(index)
         print(rgb_file)
+    index+=1
 
     
 file2.close()    

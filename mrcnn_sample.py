@@ -43,9 +43,7 @@ if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
 
 # Directory of images to run detection on
-IMAGE_DIR = "/home/ashfaquekp/val/0/10/photo"
-IMAGE_PATH="550.jpg"
-IMAGE_NAME=IMAGE_PATH.split(".")[0]
+
 MASK_DIR="/home/ashfaquekp/val/0/10/mrcnn_mask/"
 
 class InferenceConfig(coco.CocoConfig):
@@ -61,16 +59,6 @@ model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 
 # Load weights trained on MS-COCO
 model.load_weights(COCO_MODEL_PATH, by_name=True)
-
-
-image = skimage.io.imread(os.path.join(IMAGE_DIR, IMAGE_PATH))
-
-# Run detection
-start=time.time()
-results = model.detect([image], verbose=1)
-end=time.time()
-
-print("Time took to predict:",(end-start)*1000.0," ms")
 
 class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'bus', 'train', 'truck', 'boat', 'traffic light',
@@ -88,28 +76,53 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
                'teddy bear', 'hair drier', 'toothbrush']
 
-# Visualize results
-r = results[0]
 
-masks=r['masks']
-class_ids=r['class_ids']
-no_masks=masks.shape[2]
+file2=open("associate.txt")
+data = file2.read()
+lines = data.split("\n") 
 
-file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
+index=0
 
-for i in range(no_masks):
-    mask_img=r['masks'][:,:,i].astype('float')
-    mask_img=mask_img*255
-    mask_img=mask_img.astype('uint8')
+for line in lines: 
+    if index%30!=0:
+        continue                                    #This is used to loop all images
+    contents=line.split(" ")
+    try:
+        rgb_file=contents[0]
+    except:
+        print("Associate File read error at i =",index)
+        continue
+    print("Generating mask of Image %d"%(index+1))
+    image = skimage.io.imread(rgb_file)
     
-    mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
-    io.imsave(mask_file_name,mask_img)
+    # Run detection
+    results = model.detect([image], verbose=1)
     
-    file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[i]))
-file.close()
-
-
-
+    IMAGE_NAME=rgb_file.split(".")[0].split("/")[-1]
+    # Visualize results
+    r = results[0]
+    
+    masks=r['masks']
+    class_ids=r['class_ids']
+    no_masks=masks.shape[2]
+    
+    file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
+    
+    for i in range(no_masks):
+        mask_img=r['masks'][:,:,i].astype('float')
+        mask_img=mask_img*255
+        mask_img=mask_img.astype('uint8')
+        
+        mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
+        io.imsave(mask_file_name,mask_img)
+        
+        file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[class_ids[i]]))
+    file.close()
+    index+=1
+    if index>32:
+        break
+    
+file2.close()    
 
 
 

@@ -17,6 +17,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import time
 
+from skimage import io
+
 # Root directory of the project
 ROOT_DIR = "/home/ashfaquekp/Mask_RCNN"
 
@@ -87,8 +89,14 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 r = results[0]
 print(r['masks'].shape)
 print(r['class_ids'])
-mask1=r['masks'][:,:,0]
 
-print("Mask Unique",np.unique(mask1,return_counts=True))
-visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
-                            class_names, r['scores'])
+mask_img=r['masks'][:,:,0].astype('float')
+mask_img=mask_img*255
+mask_img=mask_img.astype('uint8')
+io.imsave('/home/ashfaquekp/mask.jpg',mask_img)
+
+
+
+
+#visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
+#                            class_names, r['scores'])

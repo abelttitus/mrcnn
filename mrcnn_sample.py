@@ -120,7 +120,7 @@ for line in lines:
         file_class.write("%s \n"%(rgb_file))
         file_class.close()
     file.close()
-index+=1
+    index+=1
 
 
     

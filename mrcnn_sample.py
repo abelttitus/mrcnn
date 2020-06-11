@@ -44,6 +44,9 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 IMAGE_DIR = "/home/ashfaquekp/val/0/10/photo"
+IMAGE_PATH="550.jpg"
+IMAGE_NAME=IMAGE_PATH.split(".")[0]
+MASK_DIR="/home/ashfaquekp/val/0/10/mrcnn_mask/"
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -60,7 +63,7 @@ model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 model.load_weights(COCO_MODEL_PATH, by_name=True)
 
 
-image = skimage.io.imread(os.path.join(IMAGE_DIR, "550.jpg"))
+image = skimage.io.imread(os.path.join(IMAGE_DIR, IMAGE_PATH))
 
 # Run detection
 start=time.time()
@@ -87,13 +90,25 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 # Visualize results
 r = results[0]
-print(r['masks'].shape)
-print(r['class_ids'])
 
-mask_img=r['masks'][:,:,0].astype('float')
-mask_img=mask_img*255
-mask_img=mask_img.astype('uint8')
-io.imsave('/home/ashfaquekp/mask.jpg',mask_img)
+masks=r['masks']
+class_ids=r['class_ids']
+no_masks=masks.shape[2]
+
+file = open(MASK_DIR+IMAGE_NAME+'.txt',"w")
+
+for i in range(no_masks):
+    mask_img=r['masks'][:,:,i].astype('float')
+    mask_img=mask_img*255
+    mask_img=mask_img.astype('uint8')
+    
+    mask_file_name=MASK_DIR+IMAGE_NAME+'_'+str(class_ids[i])+'.jpg'
+    io.imsave(mask_file_name,mask_img)
+    
+    file.write("%s %s %s\n"%(mask_file_name,str(class_ids[i]),class_names[i]))
+file.close()
+
+
 
 
 

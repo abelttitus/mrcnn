@@ -120,8 +120,7 @@ for line in lines:
         print(index)
         print(rgb_file)
     index+=1
-    if index>92:
-        break
+
 
     
 file2.close()    

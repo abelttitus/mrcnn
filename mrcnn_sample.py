@@ -84,8 +84,8 @@ lines = data.split("\n")
 index=0
 
 for line in lines: 
-    if index%30!=0:
-        continue                                    #This is used to loop all images
+    #if index%30!=0:
+     #   continue                                    #This is used to loop all images
     contents=line.split(" ")
     try:
         rgb_file=contents[0]

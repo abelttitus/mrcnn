@@ -85,7 +85,7 @@ end=time.time()
 
 print("Time took",end-start)
 
-
+r = results[0]
 
 
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 

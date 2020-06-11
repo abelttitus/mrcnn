@@ -15,6 +15,7 @@ import numpy as np
 import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
+import time
 
 # Root directory of the project
 ROOT_DIR = "/home/ashfaquekp/Mask_RCNN"
@@ -57,10 +58,14 @@ model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
 model.load_weights(COCO_MODEL_PATH, by_name=True)
 
 
-image = skimage.io.imread(os.path.join(IMAGE_DIR, "600.jpg"))
+image = skimage.io.imread(os.path.join(IMAGE_DIR, "550.jpg"))
 
 # Run detection
+start=time.time()
 results = model.detect([image], verbose=1)
+end=time.time()
+
+print("Time took to predict:",(end-start)*1000.0," ms")
 
 class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'bus', 'train', 'truck', 'boat', 'traffic light',

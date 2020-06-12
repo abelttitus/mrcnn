@@ -86,7 +86,7 @@ end=time.time()
 print("Time took",end-start)
 
 r = results[0]
-print("Bonding Box shape",r['rois'].shape)
+print("Bonding Box shape",r['rois'][2,:])
 
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])

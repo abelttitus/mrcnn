@@ -75,7 +75,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-rgb_file='/home/ashfaquekp/val/0/10/photo/2500.jpg'
+rgb_file='/home/ashfaquekp/val/0/10/photo/550.jpg'
 image = skimage.io.imread(rgb_file)
 
 # Run detection
@@ -86,7 +86,7 @@ end=time.time()
 print("Time took",end-start)
 
 r = results[0]
-
+print("Bonding Box shape",r['rois'].shape)
 
 visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
                             class_names, r['scores'])

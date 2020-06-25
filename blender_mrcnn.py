@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 11 16:00:15 2020
+Created on Thu Jun 25 12:22:36 2020
 
 @author: abel
 """
+
 import os
 import sys
 import random
@@ -86,7 +87,13 @@ end=time.time()
 print("Time took",end-start)
 
 r = results[0]
-print("Bonding Box shape",r['rois'][2,:])
+masks=r['masks']
+no_masks=masks.shape[2]
 
-visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'], 
-                            class_names, r['scores'])
+for i in range(no_masks):
+    mask_img=r['masks'][:,:,i].astype('float')
+    mask_img=mask_img*255
+    mask_img=mask_img.astype('uint8')
+    
+    mask_file_name=MASK_DIR+str(i)+'.jpg'
+    io.imsave(mask_file_name,mask_img)

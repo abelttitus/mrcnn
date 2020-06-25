@@ -15,6 +15,7 @@ import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
 import time
+import cv2 
 
 from skimage import io
 
@@ -43,7 +44,7 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 
-MASK_DIR="mask/"
+MASK_DIR="/home/ashfaquekp/mrcnn/"
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -76,8 +77,8 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-rgb_file='rgb/Image_0000.png'
-image = skimage.io.imread(rgb_file)
+rgb_file='/home/ashfaquekp/mrcnn/rgb/Image_0000.png'
+image = cv2.imread(rgb_file)
 
 # Run detection
 start=time.time()

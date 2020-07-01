@@ -102,7 +102,7 @@ for i in range(len(lines)-1):
         mask_img=mask_img*255
         mask_img=mask_img.astype('uint8')
         print("Class of ",i,":",class_names[class_ids[i]])
-        mask_file_name=MASK_DIR+str(img_no)+'_'+class_ids[i]+'.jpg'
+        mask_file_name=MASK_DIR+str(img_no)+'_'+str(+class_ids[i])+'.jpg'
         io.imsave(mask_file_name,mask_img)
         file_img.write("%s %s %s \n"%(mask_file_name,class_ids[i],class_names[class_ids[i]]))
     file_img.close()

@@ -45,7 +45,7 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 
-MASK_DIR="/home/ashfaquekp/mrcnn/mask/"
+MASK_DIR="/home/ashfaquekp/output_table/mrcnn_mask/"
 BASE_DIR="/home/ashfaquekp/output_table/"
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -83,8 +83,8 @@ lines = file.read().split("\n")
 print("Number of lines in associate",len(lines))
 for i in range(len(lines)-1):
     image = cv2.imread(BASE_DIR+ lines[i].split(" ")[1])
-    img_no=int(lines[i].split(" ")[1].split("_")[1][:4])
-    file_img=open(BASE_DIR+str(img_no)+'.txt','w')
+    img_no=lines[i].split(" ")[1].split("_")[1][:4]
+    file_img=open(MASK_DIR+str(img_no)+'.txt','w')
     
     # Run detection
     
@@ -102,9 +102,9 @@ for i in range(len(lines)-1):
         mask_img=mask_img*255
         mask_img=mask_img.astype('uint8')
         print("Class of ",i,":",class_names[class_ids[i]])
-        mask_file_name=MASK_DIR+str(i)+'.jpg'
+        mask_file_name=MASK_DIR+str(img_no)+'_'+class_ids[i]+'.jpg'
         io.imsave(mask_file_name,mask_img)
-        file_img.write("%s %s %s \n "%(mask_file_name,class_ids[i],class_names[class_ids[i]]))
+        file_img.write("%s %s %s \n"%(mask_file_name,class_ids[i],class_names[class_ids[i]]))
     file_img.close()
     break
 file.close()

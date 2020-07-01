@@ -90,11 +90,11 @@ print("Time took",end-start)
 r = results[0]
 masks=r['masks']
 no_masks=masks.shape[2]
-
+class_ids=r['class_ids']
 for i in range(no_masks):
     mask_img=r['masks'][:,:,i].astype('float')
     mask_img=mask_img*255
     mask_img=mask_img.astype('uint8')
-    
-    mask_file_name=MASK_DIR+str(i)+'.jpg'
-    io.imsave(mask_file_name,mask_img)
+    print("Class of ",i,":",class_names[class_ids[i]])
+    #mask_file_name=MASK_DIR+str(i)+'.jpg'
+    #io.imsave(mask_file_name,mask_img)

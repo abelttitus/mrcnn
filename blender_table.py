@@ -17,8 +17,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import time
 import cv2 
-import tqdm
-
+from tqdm import tqdm
 from skimage import io
 
 # Root directory of the project

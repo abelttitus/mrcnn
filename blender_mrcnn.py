@@ -44,7 +44,7 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 
-MASK_DIR="/home/ashfaquekp/mrcnn/"
+MASK_DIR="/home/ashfaquekp/mrcnn/mask/"
 
 class InferenceConfig(coco.CocoConfig):
     # Set batch size to 1 since we'll be running inference on
@@ -77,7 +77,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-rgb_file='/home/ashfaquekp/mrcnn/rgb/Image_0000.png'
+rgb_file='/home/ashfaquekp/mrcnn/color/Image_0000.png'
 image = cv2.imread(rgb_file)
 
 # Run detection

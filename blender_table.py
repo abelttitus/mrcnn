@@ -78,7 +78,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-file=open('data/associate.txt')
+file=open(BASE_DIR+'rgb.txt')
 lines = file.read().split("\n")
 print("Number of lines in associate",len(lines))
 for i in range(len(lines)-1):

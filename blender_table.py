@@ -17,6 +17,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import time
 import cv2 
+import tqdm
 
 from skimage import io
 
@@ -81,7 +82,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 file=open(BASE_DIR+'rgb.txt')
 lines = file.read().split("\n")
 print("Number of lines in associate",len(lines))
-for i in range(len(lines)-1):
+for i in tqdm(range(len(lines)-1)):
     image = cv2.imread(BASE_DIR+ lines[i].split(" ")[1])
     img_no=lines[i].split(" ")[1].split("_")[1][:4]
     file_img=open(MASK_DIR+str(img_no)+'.txt','w')
@@ -101,10 +102,10 @@ for i in range(len(lines)-1):
         mask_img=r['masks'][:,:,i].astype('float')
         mask_img=mask_img*255
         mask_img=mask_img.astype('uint8')
-        print("Class of ",i,":",class_names[class_ids[i]])
+        #print("Class of ",i,":",class_names[class_ids[i]])
         mask_file_name=MASK_DIR+str(img_no)+'_'+str(+class_ids[i])+'.jpg'
         io.imsave(mask_file_name,mask_img)
         file_img.write("%s %s %s \n"%(mask_file_name,class_ids[i],class_names[class_ids[i]]))
     file_img.close()
-    break
+    
 file.close()

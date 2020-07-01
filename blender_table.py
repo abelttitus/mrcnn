@@ -80,7 +80,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 file=open('data/associate.txt')
 lines = file.read().split("\n")
-print "Number of lines in associate",len(lines)
+print("Number of lines in associate",len(lines))
 for i in range(len(lines)-1):
     image = cv2.imread(BASE_DIR+ lines[i].split(" ")[1])
     
@@ -89,7 +89,7 @@ for i in range(len(lines)-1):
     results = model.detect([image], verbose=0)
     
     
-    print("Time took",end-start)
+ 
     
     r = results[0]
     masks=r['masks']

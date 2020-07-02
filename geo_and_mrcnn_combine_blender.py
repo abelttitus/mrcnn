@@ -165,6 +165,8 @@ if __name__=='__main__':
             img=label_ret(markers,valid_labels[k])
             g_masks.append(img)
        
+        print("Length of g_masks",len(g_masks))
+        
         m_masks=[]
         m_mask_id=[]
         file_mask_index=open(MASK_DIR +str(img_no)+'.txt')
@@ -177,6 +179,9 @@ if __name__=='__main__':
             m_mask_id.append(int(lines_mask[l].split(" ")[1]))
         
         file_mask_index.close()
+        
+        print("Len og m_masks",len(m_masks))
+        print("M mask id",m_mask_id)
         
         g_mask_val=np.zeros((len(g_masks))).astype(np.bool)
         g_mask_id=np.zeros((len(g_masks)))
@@ -196,7 +201,9 @@ if __name__=='__main__':
                     g_mask_val[l]=True
                     g_mask_id[l]=m_mask_id[j]
                     best_val=max(val,best_val)
-        
+        print("best value",best_val)
+        print("g_mask Validity",g_mask_val)
+        print("g_mask classes",g_mask_id)
         file_txt=open(FINAL_MASK_STORE+str(img_no)+'.txt','w')         
         for l in range(len(g_masks)):
             if g_mask_val[l]==False:

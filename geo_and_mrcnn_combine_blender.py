@@ -165,18 +165,23 @@ if __name__=='__main__':
             img=label_ret(markers,valid_labels[k])
             g_masks.append(img)
        
-        print("Length of g_masks",len(g_masks))
+       
         
         m_masks=[]
         m_mask_id=[]
         file_mask_index=open(MASK_DIR +str(img_no)+'.txt')
         lines_mask = file.read().split("\n")
         for l in range(len(lines_mask)-1):
-            m1=cv2.imread(lines_mask[l].split(" ")[0])
+            mfile=lines_mask[l].split(" ")[0]
+            mid=lines_mask[l].split(" ")[1]
+            
+            print("Mask File",mfile)
+            print("Mask id",mid)
+            m1=cv2.imread(mfile)
             m1[m1<125]=0
             m1[m1>=125]=1
             m_masks.append(m1)
-            m_mask_id.append(int(lines_mask[l].split(" ")[1]))
+            m_mask_id.append(int(mid))
         
         file_mask_index.close()
         

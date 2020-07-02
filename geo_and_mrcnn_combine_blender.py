@@ -79,7 +79,7 @@ def generate_pointcloud(rgb_file,depth_file,ply_file):
             coords[v,u,0]=X
             coords[v,u,1]=Y
             coords[v,u,2]=Z
-    print("Coordinated finished...")
+    # print("Coordinated finished...")
     n_map=np.zeros((480,640,3),dtype=np.float32)
     for u in range(cols):
         for v in range(rows):
@@ -98,7 +98,7 @@ def generate_pointcloud(rgb_file,depth_file,ply_file):
             norm=np.cross(p,q)
             norm=norm/np.linalg.norm(norm)
             n_map[v,u,:]=norm
-    print("Normal Map finished....")
+    # print("Normal Map finished....")
     return coords,n_map
 
 
@@ -121,7 +121,7 @@ if __name__=='__main__':
         
         
         if True:
-            print("Starting to calculate dd and cc vals..")
+            # print("Starting to calculate dd and cc vals..")
             cols=vmap.shape[1]
             rows=vmap.shape[0]
             
@@ -171,13 +171,11 @@ if __name__=='__main__':
         m_mask_id=[]
         file_mask_index=open(MASK_DIR +str(img_no)+'.txt')
         lines_mask = file_mask_index.read().split("\n")
-        print("Number of lines in mask index file",len(lines_mask))
+
         for l in range(len(lines_mask)-1):
             mfile=lines_mask[l].split(" ")[0]
             mid=lines_mask[l].split(" ")[1]
-            
-            print("Mask File",mfile)
-            print("Mask id",mid)
+
             m1=cv2.imread(mfile)
             m1[m1<125]=0
             m1[m1>=125]=1
@@ -186,8 +184,7 @@ if __name__=='__main__':
         
         file_mask_index.close()
         
-        print("Len of m_masks",len(m_masks))
-        print("M mask id",m_mask_id)
+
         
         g_mask_val=np.zeros((len(g_masks))).astype(np.bool)
         g_mask_id=np.zeros((len(g_masks)))
@@ -207,9 +204,7 @@ if __name__=='__main__':
                     g_mask_val[l]=True
                     g_mask_id[l]=m_mask_id[j]
                     best_val=max(val,best_val)
-        print("best value",best_val)
-        print("g_mask Validity",g_mask_val)
-        print("g_mask classes",g_mask_id)
+
         file_txt=open(FINAL_MASK_STORE+str(img_no)+'.txt','w')         
         for l in range(len(g_masks)):
             if g_mask_val[l]==False:
@@ -223,5 +218,5 @@ if __name__=='__main__':
             cv2.imwrite(mask_file_name,mask_img)
             file_txt.write("%d %s \n"%(int(g_mask_id[l]),mask_file_name))
         file_txt.close()
-        break
+        
     file.close()

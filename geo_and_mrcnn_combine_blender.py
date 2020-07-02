@@ -170,7 +170,9 @@ if __name__=='__main__':
         m_masks=[]
         m_mask_id=[]
         file_mask_index=open(MASK_DIR +str(img_no)+'.txt')
+        print(MASK_DIR +str(img_no)+'.txt')
         lines_mask = file.read().split("\n")
+        print("Number of lines in mask index file",len(lines_mask))
         for l in range(len(lines_mask)-1):
             mfile=lines_mask[l].split(" ")[0]
             mid=lines_mask[l].split(" ")[1]
@@ -185,7 +187,7 @@ if __name__=='__main__':
         
         file_mask_index.close()
         
-        print("Len og m_masks",len(m_masks))
+        print("Len of m_masks",len(m_masks))
         print("M mask id",m_mask_id)
         
         g_mask_val=np.zeros((len(g_masks))).astype(np.bool)

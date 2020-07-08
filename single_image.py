@@ -75,7 +75,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 
-rgb_file='rgb/Image_0000.png'
+rgb_file='rgb/Image_0060.png'
 image = skimage.io.imread(rgb_file)
 
 # Run detection

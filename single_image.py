@@ -14,7 +14,7 @@ import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
 import time
-
+import cv2
 from skimage import io
 
 # Root directory of the project
@@ -76,7 +76,7 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
 
 
 rgb_file='rgb/Image_0060.png'
-image = skimage.io.imread(rgb_file)
+image = cv2.imread(rgb_file)
 
 # Run detection
 start=time.time()
